@@ -1,0 +1,191 @@
+﻿<Window x:Class="AppBase.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AppBase"
+        mc:Ignorable="d"
+        Title="AppBase" Height="770" Width="1320" WindowStartupLocation="CenterScreen" Background="#313338" MinHeight="450" MinWidth="800">
+    <Window.Resources>
+        <Style x:Key="RoundWindow" TargetType="Window">
+            <Setter Property="WindowChrome.WindowChrome">
+                <Setter.Value>
+                    <WindowChrome CaptionHeight="4" CornerRadius="0" GlassFrameThickness="0" NonClientFrameEdges="None" ResizeBorderThickness="3"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CaptionButtons" TargetType="Button">
+            <Setter Property="Background" Value="#1e1f22"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="#1e1f22" BorderBrush="Transparent" BorderThickness="0" Padding="10" CornerRadius="2">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#2b2d31"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="Transparent"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#34363b"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="Transparent"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="Gray"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="DarkGray"/>
+                                <Setter Property="Foreground" Value="DarkGray"/>
+                                <Setter Property="Cursor" Value="Arrow"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CloseButton" TargetType="Button">
+            <Setter Property="Background" Value="#1e1f22"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="#1e1f22" BorderBrush="Transparent" BorderThickness="0" Padding="10" CornerRadius="2">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#f23f43"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="Transparent"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#f23f43"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="Transparent"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="Gray"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="DarkGray"/>
+                                <Setter Property="Foreground" Value="DarkGray"/>
+                                <Setter Property="Cursor" Value="Arrow"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Window.Style>
+        <StaticResource ResourceKey="RoundWindow"/>
+    </Window.Style>
+
+    <Grid Name="WindowGrid">
+        <Frame Name="MainAppFrame" NavigationUIVisibility="Hidden" Margin="0,22,0,0"/> <!--Margin as 0,22,0,0 to avoid having the page go behind the topbar and buttons. Also have NavigationUIVisibility as Hidden so you don't get an ugly bar - set it to Visible and you will see why it's disabled.-->
+
+        <!--Top bar, this doesn't need to be changed at all unless you want to change the assets for the buttons.-->
+        <DockPanel Height="22" VerticalAlignment="Top" Background="#1e1f22" MouseLeftButtonDown="DragMove">
+            <Grid>
+                <Button Width="28" Height="22" Margin="0,0,0,0" BorderBrush="Transparent" Cursor="Hand" Click="Close_Click" Grid.Row="1" UseLayoutRounding="True" VerticalAlignment="Top" HorizontalAlignment="Right" Style="{StaticResource CloseButton}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Grid>
+                                <Border x:Name="border" Background="#1e1f22" BorderBrush="Transparent" BorderThickness="0" Padding="10" CornerRadius="0">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                
+                                <Image x:Name="NormalImage" Source="pack://application:,,,/src/Content/Window/close.png" Visibility="Visible" Width="12"/>
+                                <Image x:Name="HoverImage" Source="pack://application:,,,/src/Content/Window/close_hovered.png" Visibility="Collapsed" Width="12"/>
+                                <Image x:Name="PressedImage" Source="pack://application:,,,/src/Content/Window/close_hovered.png" Visibility="Collapsed" Width="12"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="border" Property="Background" Value="#f23f43"/>
+                                    <Setter TargetName="NormalImage" Property="Visibility" Value="Collapsed" />
+                                    <Setter TargetName="HoverImage" Property="Visibility" Value="Visible" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="border" Property="Background" Value="#f23f43"/>
+                                    <Setter TargetName="HoverImage" Property="Visibility" Value="Collapsed" />
+                                    <Setter TargetName="PressedImage" Property="Visibility" Value="Visible" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+                <Button Name="MaximizeBtn" Width="28" Height="22" Margin="0,0,28,0" BorderBrush="Transparent" Cursor="Hand" Click="Maximize_Click" Grid.Row="1" UseLayoutRounding="True" VerticalAlignment="Top" HorizontalAlignment="Right" Style="{StaticResource CloseButton}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Grid>
+                                <Border x:Name="border" Background="#1e1f22" BorderBrush="Transparent" BorderThickness="0" Padding="10" CornerRadius="0">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+
+                                <Image x:Name="NormalImage" Source="pack://application:,,,/src/Content/Window/maximize.png" Visibility="Visible" Width="12"/>
+                                <Image x:Name="HoverImage" Source="pack://application:,,,/src/Content/Window/maximize_hovered.png" Visibility="Collapsed" Width="12"/>
+                                <Image x:Name="PressedImage" Source="pack://application:,,,/src/Content/Window/maximize_hovered.png" Visibility="Collapsed" Width="12"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="border" Property="Background" Value="#2b2d31"/>
+                                    <Setter TargetName="NormalImage" Property="Visibility" Value="Collapsed" />
+                                    <Setter TargetName="HoverImage" Property="Visibility" Value="Visible" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="border" Property="Background" Value="#34363b"/>
+                                    <Setter TargetName="HoverImage" Property="Visibility" Value="Collapsed" />
+                                    <Setter TargetName="PressedImage" Property="Visibility" Value="Visible" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+                <Button Width="28" Height="22" Margin="0,0,56,0" BorderBrush="Transparent" Cursor="Hand" Click="Minimize_Click" Grid.Row="1" UseLayoutRounding="True" VerticalAlignment="Top" HorizontalAlignment="Right" Style="{StaticResource CloseButton}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Grid>
+                                <Border x:Name="border" Background="#1e1f22" BorderBrush="Transparent" BorderThickness="0" Padding="10" CornerRadius="0">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+
+                                <Image x:Name="NormalImage" Source="pack://application:,,,/src/Content/Window/minimize.png" Visibility="Visible" Width="12"/>
+                                <Image x:Name="HoverImage" Source="pack://application:,,,/src/Content/Window/minimize_hovered.png" Visibility="Collapsed" Width="12"/>
+                                <Image x:Name="PressedImage" Source="pack://application:,,,/src/Content/Window/minimize_hovered.png" Visibility="Collapsed" Width="12"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="border" Property="Background" Value="#2b2d31"/>
+                                    <Setter TargetName="NormalImage" Property="Visibility" Value="Collapsed" />
+                                    <Setter TargetName="HoverImage" Property="Visibility" Value="Visible" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="border" Property="Background" Value="#34363b"/>
+                                    <Setter TargetName="HoverImage" Property="Visibility" Value="Collapsed" />
+                                    <Setter TargetName="PressedImage" Property="Visibility" Value="Visible" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Window>
